@@ -71,3 +71,9 @@ template "/etc/ssh/sshd_config" do
   variables(:settings => node['openssh']['server'])
   notifies :restart, "service[ssh]"
 end
+
+begin
+  iptables_rule "port_ssh"
+rescue Chef::Exceptions::ResourceNotFound
+  # no iptables in cookbook, just ignore it
+end
